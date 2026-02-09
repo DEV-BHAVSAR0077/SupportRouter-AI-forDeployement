@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
@@ -32,6 +32,9 @@ def get_chatbot(session_id):
     
     return chatbot_sessions[session_id]
 
+@app.route("/")
+def home():
+    return render_template("index.html")
 
 @app.route('/api/health', methods=['GET'])
 def health_check():

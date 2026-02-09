@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Webential Support Desk - Enhanced with ChromaDB</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+    <!-- <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="logo.png"> -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/logo.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/logo.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -188,7 +190,7 @@
         const { useState, useEffect, useRef } = React;
 
         // Configuration
-        const API_BASE_URL = 'http://localhost:5000/api';
+        const API_BASE_URL = '/api';
 
         // Generate unique session ID
         const SESSION_ID = 'session_' + Math.random().toString(36).substr(2, 9);
@@ -444,9 +446,15 @@
                                 <div className="flex items-center space-x-4">
                                     {/*<div className="bg-white bg-opacity-10 p-3 rounded-lg backdrop-blur-sm">
                                          <i className="fas fa-robot text-3xl"></i> 
-                                    </div>*/}
+                                    </div>
                                     <img
                                         src="logo.png"
+                                        alt="Webential Logo"
+                                        class="h-18 w-auto"
+                                        onerror="this.src='https://via.placeholder.com/120x40?text=Webential'"
+                                    />*/}
+                                    <img
+                                        src="{{ url_for('static', filename='images/logo.png') }}"
                                         alt="Webential Logo"
                                         class="h-18 w-auto"
                                         onerror="this.src='https://via.placeholder.com/120x40?text=Webential'"
