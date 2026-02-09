@@ -1,3 +1,4 @@
+import requests
 import os
 import json
 import uuid
@@ -481,43 +482,88 @@ IMPORTANT: Ensure the email content uses double asterisks for **bolding** key te
         
         return html
     
+    # def send_email_to_department(self, email_html: str) -> bool:
+    #     """Send the email to the identified department."""
+        
+    #     if not self.sender_email or not self.sender_password:
+    #         print("⚠️  Email credentials not configured.")
+    #         print(f"Would send to: {self.departments[self.identified_department]['email']}")
+    #         return False
+        
+    #     try:
+    #         recipient_email = self.departments[self.identified_department]["email"]
+    #         subject = self.email_data.get('subject', f'New Request - {self.identified_department}')
+            
+    #         # Create message
+    #         message = MIMEMultipart("alternative")
+    #         message["Subject"] = subject
+    #         message["From"] = self.sender_email
+    #         message["To"] = recipient_email
+    #         message["Reply-To"] = self.email_data.get('email', self.sender_email)
+            
+    #         # Use the department email HTML
+    #         department_html = self.email_data.get('department_email', email_html)
+    #         part = MIMEText(department_html, "html")
+    #         message.attach(part)
+            
+    #         # Send email
+    #         with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
+    #             server.starttls()
+    #             server.login(self.sender_email, self.sender_password)
+    #             server.sendmail(self.sender_email, recipient_email, message.as_string())
+            
+    #         print(f"✅ Email sent successfully to {recipient_email}")
+    #         return True
+            
+    #     except Exception as e:
+    #         print(f"❌ Error sending email: {e}")
+    #         import traceback
+    #         traceback.print_exc()
+    #         return False
+
     def send_email_to_department(self, email_html: str) -> bool:
-        """Send the email to the identified department."""
-        
-        if not self.sender_email or not self.sender_password:
-            print("⚠️  Email credentials not configured.")
-            print(f"Would send to: {self.departments[self.identified_department]['email']}")
-            return False
-        
+        """Send the email to the identified department using Resend API."""
+
         try:
+            api_key = os.getenv("RESEND_API_KEY")
+            if not api_key:
+                raise Exception("RESEND_API_KEY not configured")
+
             recipient_email = self.departments[self.identified_department]["email"]
-            subject = self.email_data.get('subject', f'New Request - {self.identified_department}')
-            
-            # Create message
-            message = MIMEMultipart("alternative")
-            message["Subject"] = subject
-            message["From"] = self.sender_email
-            message["To"] = recipient_email
-            message["Reply-To"] = self.email_data.get('email', self.sender_email)
-            
-            # Use the department email HTML
-            department_html = self.email_data.get('department_email', email_html)
-            part = MIMEText(department_html, "html")
-            message.attach(part)
-            
-            # Send email
-            with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
-                server.starttls()
-                server.login(self.sender_email, self.sender_password)
-                server.sendmail(self.sender_email, recipient_email, message.as_string())
-            
+            subject = self.email_data.get(
+                "subject",
+                f"New Request - {self.identified_department}"
+            )
+
+            # Use department-specific HTML if available
+            department_html = self.email_data.get(
+                "department_email",
+                email_html
+            )
+
+            response = requests.post(
+                "https://api.resend.com/emails",
+                headers={
+                    "Authorization": f"Bearer {api_key}",
+                    "Content-Type": "application/json",
+                },
+                json={
+                    "from": "Support Bot <onboarding@resend.dev>",
+                    "to": [recipient_email],
+                    "subject": subject,
+                    "html": department_html,
+                    "reply_to": self.email_data.get("email"),
+                },
+                timeout=10
+            )
+
+            response.raise_for_status()
+
             print(f"✅ Email sent successfully to {recipient_email}")
             return True
-            
+        
         except Exception as e:
             print(f"❌ Error sending email: {e}")
-            import traceback
-            traceback.print_exc()
             return False
     
     def save_to_chroma(self, message: str, role: str, metadata: Dict = None):
