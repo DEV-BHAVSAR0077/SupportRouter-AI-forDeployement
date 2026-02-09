@@ -186,6 +186,7 @@
 <body class="bg-gray-50">
     <div id="root"></div>
 
+    {% raw %}
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
@@ -717,10 +718,16 @@
                                                         <p className="text-xs text-gray-500 mb-2 font-medium">CONFIDENCE SCORE</p>
                                                         <div className="flex items-center space-x-3">
                                                             <div className="flex-1 bg-gray-200 rounded-full h-3 overflow-hidden">
-                                                                <div
+                                                                {/*<div
                                                                     className="bg-gradient-to-r from-blue-600 to-cyan-600 h-3 rounded-full transition-all duration-500"
-                                                                    style={{ width: `${departmentInfo.confidence}%` }}
-                                                                ></div>
+                                                                    // style={{ width: `${departmentInfo.confidence}%` }}
+                                                                ></div>*/}
+                                                                <!-- Confidence Progress Bar -->
+                                                                <div class="confidence-bar" style="width: 100%; background-color: #e5e7eb; border-radius: 8px; overflow: hidden;">
+                                                                    <div id="confidenceFill"
+                                                                        style="height: 12px; width: 0%; background: linear-gradient(to right, #2563eb, #06b6d4); transition: width 0.5s ease;">
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <span className="text-lg font-bold text-blue-600">{departmentInfo.confidence}%</span>
                                                         </div>
@@ -835,6 +842,7 @@
 
         ReactDOM.render(<ChatBot />, document.getElementById('root'));
     </script>
+    {% endraw %}
 </body>
 
 </html>
