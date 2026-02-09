@@ -548,7 +548,7 @@ IMPORTANT: Ensure the email content uses double asterisks for **bolding** key te
                     "Content-Type": "application/json",
                 },
                 json={
-                    "from": "Support Bot <onboarding@resend.dev>",
+                    "from": f"Support Bot <{self.sender_email}>",
                     "to": [recipient_email],
                     "subject": subject,
                     "html": department_html,
