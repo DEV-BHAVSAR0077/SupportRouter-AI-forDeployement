@@ -11,7 +11,7 @@
 
 **An intelligent, context-aware chatbot that automatically routes customer inquiries to the right department using AI-powered semantic analysis and vector similarity search.**
 
-[Demo](#-demo) • [Features](#-key-features) • [Installation](#-installation) • [Usage](#-usage) • [API](#-api-documentation) • [Contributing](#-contributing)
+[Demo](#-demo)
 
 </div>
 
@@ -21,21 +21,7 @@
 
 - [Overview](#-overview)
 - [Demo](#-demo)
-- [Key Features](#-key-features)
-- [Architecture](#-architecture)
-- [Technology Stack](#-technology-stack)
-- [Installation](#-installation)
-- [Configuration](#-configuration)
-- [Usage](#-usage)
-- [API Documentation](#-api-documentation)
-- [Knowledge Base Management](#-knowledge-base-management)
-- [Project Structure](#-project-structure)
-- [Advanced Features](#-advanced-features)
-- [Troubleshooting](#-troubleshooting)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Contact](#-contact)
-
+  
 ---
 
 ## 🌟 Overview
@@ -85,3 +71,4 @@ Displays the final email automatically generated and sent to the relevant depart
 [⬆ Back to Top](#-enhanced-department-router-chatbot)
 
 </div>
+
